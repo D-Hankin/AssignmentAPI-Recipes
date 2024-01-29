@@ -11,15 +11,16 @@ import jakarta.persistence.Id;
 public class User {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id; 
     private String username;
+    private String password;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
 
     public User(String username, String firstName, String lastName, String email, String password) {
+    
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

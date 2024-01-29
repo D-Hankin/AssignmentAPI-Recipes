@@ -1,7 +1,6 @@
 package assignmentapirecipes.assignmentapirecipes.repositories;
 
 import assignmentapirecipes.assignmentapirecipes.models.User;
-
 import java.util.UUID;
 import java.util.Optional;
 
