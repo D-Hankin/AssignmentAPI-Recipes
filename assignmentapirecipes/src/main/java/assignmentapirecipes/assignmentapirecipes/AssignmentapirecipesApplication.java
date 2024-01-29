@@ -8,6 +8,7 @@ public class AssignmentapirecipesApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AssignmentapirecipesApplication.class, args);
+		System.out.println("Hello API");
 	}
 
 }
