@@ -20,7 +20,7 @@ import assignmentapirecipes.assignmentapirecipes.repositories.UserRecipeReposito
 
 @RestController
 @RequestMapping("/user/{id}")
-@CrossOrigin(origins = "localhost:5500")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class UserRecipeController {
 
     @Autowired
