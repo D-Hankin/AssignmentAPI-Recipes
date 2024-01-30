@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +17,9 @@ import assignmentapirecipes.assignmentapirecipes.models.User;
 import assignmentapirecipes.assignmentapirecipes.repositories.UserRepository;
 
 @RestController
+@CrossOrigin(origins = "localhost:5050")
 public class UserController {
+
 
     @Autowired
     private final UserRepository userRepository;
@@ -45,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public Optional<User> findById(@PathVariable("id") UUID id) {
+    public Optional<User> findById(@PathVariable("id") @NonNull UUID id) {
         Optional<User> user = userRepository.findById(id);
         return user;
     }
