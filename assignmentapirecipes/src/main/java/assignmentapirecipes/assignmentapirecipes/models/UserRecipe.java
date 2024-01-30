@@ -36,6 +36,8 @@ public class UserRecipe {
 
     @Lob
     private byte[] recipeImage;
+
+    public UserRecipe() {}
     
     public UserRecipe(String username, String recipeName, List<String> ingredients, byte[] recipeImage) {
 

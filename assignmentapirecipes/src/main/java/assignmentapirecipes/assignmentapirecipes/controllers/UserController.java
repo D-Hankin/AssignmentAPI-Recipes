@@ -17,7 +17,7 @@ import assignmentapirecipes.assignmentapirecipes.models.User;
 import assignmentapirecipes.assignmentapirecipes.repositories.UserRepository;
 
 @RestController
-@CrossOrigin(origins = "localhost:5050")
+@CrossOrigin(origins = "localhost:8080")
 public class UserController {
 
 
@@ -33,6 +33,7 @@ public class UserController {
 
     @GetMapping
     public Iterable<User> findAll() {
+        System.out.println(userRepository.findAll());
         return userRepository.findAll();
     }
 

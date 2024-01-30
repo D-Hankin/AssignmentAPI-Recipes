@@ -1,5 +1,6 @@
 package assignmentapirecipes.assignmentapirecipes.models;
 
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -7,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -28,11 +30,15 @@ public class User {
     @NotBlank
     private String lastName;
 
+    
     @Email
     private String email;
+    
+    @OneToMany(mappedBy = "username")
+    private List<UserRecipe> userRecipes;
 
     public User(String username, String firstName, String lastName, String email, String password) {
-    
+        
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,11 +55,11 @@ public class User {
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
     public String getFirstName() {
         return firstName;
     }
@@ -85,7 +91,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public List<UserRecipe> getUserRecipes() {
+        return userRecipes;
+    }
 
+    public void setUserRecipes(List<UserRecipe> userRecipes) {
+        this.userRecipes = userRecipes;
+    }
     
 
     
