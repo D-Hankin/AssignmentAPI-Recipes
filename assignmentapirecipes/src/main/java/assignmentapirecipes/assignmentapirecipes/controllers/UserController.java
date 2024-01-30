@@ -17,7 +17,7 @@ import assignmentapirecipes.assignmentapirecipes.models.User;
 import assignmentapirecipes.assignmentapirecipes.repositories.UserRepository;
 
 @RestController
-@CrossOrigin(origins = "localhost:8080")
+@CrossOrigin(origins = "localhost:5500")
 public class UserController {
 
 

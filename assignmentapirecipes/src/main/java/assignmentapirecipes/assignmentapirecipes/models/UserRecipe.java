@@ -19,9 +19,9 @@ public class UserRecipe {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int userRecipeId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
     private User user;
     
@@ -37,19 +37,29 @@ public class UserRecipe {
     @Lob
     private byte[] recipeImage;
 
+    private String recipeMethod;
+
     public UserRecipe() {}
     
-    public UserRecipe(String username, String recipeName, List<String> ingredients, byte[] recipeImage) {
+    public UserRecipe(String username, String recipeName, List<String> ingredients, byte[] recipeImage, String recipeMethod) {
 
         this.username = username;
         this.recipeName = recipeName;
         this.ingredients = ingredients;
         this.recipeImage = recipeImage;
+        this.recipeMethod = recipeMethod;
     }
     
-    
-    public int getId() {
-        return id;
+    public String getRecipeMethod() {
+        return recipeMethod;
+    }
+
+    public void setRecipeMethod(String recipeMethod) {
+        this.recipeMethod = recipeMethod;
+    }
+
+    public int getUserRecipeId() {
+        return userRecipeId;
     }
     
     public User getUser() {

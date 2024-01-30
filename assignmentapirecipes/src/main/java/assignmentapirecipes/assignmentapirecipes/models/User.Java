@@ -3,6 +3,7 @@ package assignmentapirecipes.assignmentapirecipes.models;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class User {
     @Email
     private String email;
     
-    @OneToMany(mappedBy = "username")
+    @OneToMany(mappedBy = "username", cascade = CascadeType.ALL)
     private List<UserRecipe> userRecipes;
 
     public User(String username, String firstName, String lastName, String email, String password) {
