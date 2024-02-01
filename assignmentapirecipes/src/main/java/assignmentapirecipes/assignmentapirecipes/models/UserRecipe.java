@@ -2,6 +2,8 @@ package assignmentapirecipes.assignmentapirecipes.models;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -15,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@CrossOrigin(origins = "*")
 public class UserRecipe {
     
     @Id

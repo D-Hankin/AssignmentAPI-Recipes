@@ -1,11 +1,18 @@
 package assignmentapirecipes.assignmentapirecipes.controllers;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import assignmentapirecipes.assignmentapirecipes.models.User;
 import assignmentapirecipes.assignmentapirecipes.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "http://127.0.0.1:5500", allowCredentials = "true")
 public class UserController {
 
 
@@ -26,6 +35,9 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -54,5 +66,47 @@ public class UserController {
         Optional<User> user = userRepository.findById(id);
         return user;
     }
-    
+
+    @PostMapping("/custom-login")
+    public Optional<User> customLogIn(@RequestBody Map<String, String> loginRequest, HttpServletRequest request) {
+        System.out.println(loginRequest);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.get("username"), loginRequest.get("password"));
+        Authentication auth3 = authenticationManager.authenticate(token);
+
+        if (auth3.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(auth3);
+            Authentication successfullAuthentication = SecurityContextHolder.getContext().getAuthentication();
+            System.out.println(successfullAuthentication.getPrincipal());
+            System.out.println("Session ID: " + request.getSession().getId());
+            System.out.println("User: " + successfullAuthentication.getName());
+
+            Optional<User> user = userRepository.findByUsername(successfullAuthentication.getName());
+
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    @PostMapping("/custom-logout")
+    public ResponseEntity<String> customLogout(HttpServletRequest request, HttpServletResponse response) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Before logout: " + auth.getName());
+        System.out.println("Principal: " + auth.getPrincipal());
+        System.out.println("Session ID: " + request.getSession().getId()) ;
+        
+        
+        SecurityContextHolder.clearContext();
+        request.getSession().invalidate();
+        auth.setAuthenticated(false);
+
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, response, auth);
+        SecurityContextHolder.clearContext();
+        request.getSession().invalidate();
+        return ResponseEntity.ok("You have successfully logged out");
+
+    }
+
 }
