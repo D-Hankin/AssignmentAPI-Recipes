@@ -23,30 +23,32 @@ public class UserRecipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userRecipeId;
+    
+    @Lob
+    private byte[] recipeImage;
+    
+    @NotNull
+    private String recipeMethod;
 
+    private String recipeName;
+    
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+    @JoinColumn(name = "userId", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
     
-    private String username;
+    private String userId;
     
     @ElementCollection
     @Size(min = 1, max = 10)
     private List<String> ingredients;
     
-    @NotNull
-    private String recipeName;
 
-    @Lob
-    private byte[] recipeImage;
 
-    private String recipeMethod;
 
     public UserRecipe() {}
     
     public UserRecipe(String username, String recipeName, List<String> ingredients, byte[] recipeImage, String recipeMethod) {
 
-        this.username = username;
         this.recipeName = recipeName;
         this.ingredients = ingredients;
         this.recipeImage = recipeImage;
@@ -73,12 +75,12 @@ public class UserRecipe {
         this.user = user;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getRecipeName() {

@@ -8,6 +8,6 @@ import assignmentapirecipes.assignmentapirecipes.models.UserRecipe;
 @CrossOrigin
 public interface UserRecipeRepository extends CrudRepository<UserRecipe, Integer> {
 
-    Iterable<UserRecipe> findByUsername(String username);
+    Iterable<UserRecipe> findByUserId(String userId);
     
 }

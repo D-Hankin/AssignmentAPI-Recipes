@@ -38,7 +38,7 @@ public class User {
     @Email
     private String email;
     
-    @OneToMany(mappedBy = "username", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<UserRecipe> userRecipes;
 
     public User(String username, String firstName, String lastName, String email, String password) {

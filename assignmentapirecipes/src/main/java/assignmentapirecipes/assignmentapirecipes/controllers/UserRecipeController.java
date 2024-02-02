@@ -37,20 +37,18 @@ public class UserRecipeController {
         
         System.out.println("current user: " + currentUsername);
         
-        return userRecipeRepository.findByUsername(currentUsername);
+        return userRecipeRepository.findByUserId(currentUsername);
     }
 
-    @PostMapping("/add-recipe")
-    public UserRecipe addRecipe(@RequestBody UserRecipe recipe, Authentication authentication) {
+    @PostMapping("/my-recipes/add-recipe")
+    public UserRecipe addRecipe(@RequestBody UserRecipe recipe) {
 
-        String currentUsername = "Kat88" /*authentication.getName()*/;
-        recipe.setUsername(currentUsername);
         userRecipeRepository.save(recipe);
 
         return recipe;
     }
 
-    @GetMapping("my-recipes/{userRecipeId}")
+    @GetMapping("/my-recipes/{userRecipeId}")
     public Optional<UserRecipe> findRecipe(@PathVariable("userRecipeId") @NonNull Integer userRecipeId) {
         return userRecipeRepository.findById(userRecipeId);
     }
@@ -61,7 +59,7 @@ public class UserRecipeController {
         userRecipeRepository.deleteById(userRecipeId);
         String currentUsername = "Kat88"/*authentication.getName()*/;
         
-        return userRecipeRepository.findByUsername(currentUsername);
+        return userRecipeRepository.findByUserId(currentUsername);
     }
 
     @PatchMapping("my-recipes/{userRecipeId}/edit-recipe")
