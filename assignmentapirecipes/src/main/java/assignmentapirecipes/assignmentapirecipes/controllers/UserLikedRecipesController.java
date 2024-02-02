@@ -32,12 +32,10 @@ public class UserLikedRecipesController {
     }
 
     @GetMapping("/liked-recipes")
-    public Iterable<UserLikedRecipes> getLikedRecipes(Authentication auth) throws Exception {
-        if (auth.isAuthenticated()) {
-            return userLikedRecipesRepository.findAll();
-        } else {
-            return null;
-        }
+    public Iterable<UserLikedRecipes> getLikedRecipes(@PathVariable("id") String userId) {
+            System.out.println("here: " + userId);
+            return userLikedRecipesRepository.findByUserId(userId);
+        
     }
 
     @PostMapping("/add-liked-recipe/{recipeId}")

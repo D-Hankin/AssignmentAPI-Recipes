@@ -11,8 +11,12 @@ public interface UserLikedRecipesRepository extends CrudRepository<UserLikedReci
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM UserLikedRecipes ulr WHERE ulr.userId =?1 AND ulr.recipeNumber=?2")
+    @Query("DELETE FROM UserLikedRecipes ulr WHERE ulr.userId=?1 AND ulr.recipeNumber=?2")
     void removeRecipe(String userId, String recipeId);
+
+
+    @Query("SELECT ulr FROM UserLikedRecipes ulr WHERE ulr.userId=?1")
+    Iterable<UserLikedRecipes> findByUserId(String userId);
 
     
 }

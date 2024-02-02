@@ -21,11 +21,13 @@ public class UserLikedRecipes {
     private int id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "userId", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 
     private String userId;
     private String recipeNumber;
+
+    public UserLikedRecipes() {}
 
     public UserLikedRecipes(User user, String recipeNumber) {
         this.user = user;
