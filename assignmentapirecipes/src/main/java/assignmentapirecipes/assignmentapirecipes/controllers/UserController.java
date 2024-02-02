@@ -1,5 +1,6 @@
 package assignmentapirecipes.assignmentapirecipes.controllers;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,11 +53,12 @@ public class UserController {
     @PostMapping("/add-user")
     public User addUser(@RequestBody User user) {
 
+        System.out.println("newUSer");
+        
         String encryptedPassword = bcryptEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         userRepository.save(user);
         System.out.println(user);
-        System.out.println("newUSer");
 
         return user;
     }
@@ -107,6 +109,13 @@ public class UserController {
         request.getSession().invalidate();
         return ResponseEntity.ok("You have successfully logged out");
 
+    }
+
+    @GetMapping("/users") 
+    public Iterable<User> compareUsernames() {
+        Iterable<User> users = userRepository.findAll();
+
+        return users;
     }
 
 }
