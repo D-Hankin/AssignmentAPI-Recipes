@@ -31,13 +31,11 @@ public class UserRecipeController {
     }
 
     @GetMapping("/my-recipes")
-    public Iterable<UserRecipe> findUserRecipes(Authentication authentication) {
-
-        String currentUsername = "Kat88"/*authentication.getName()*/;
+    public Iterable<UserRecipe> findUserRecipes(@PathVariable("id") String userId) {
         
-        System.out.println("current user: " + currentUsername);
+        System.out.println("current user: " + userId);
         
-        return userRecipeRepository.findByUserId(currentUsername);
+        return userRecipeRepository.findByUserId(userId);
     }
 
     @PostMapping("/my-recipes/add-recipe")
@@ -54,12 +52,11 @@ public class UserRecipeController {
     }
 
     @DeleteMapping("/my-recipes/{userRecipeId}/delete-recipe")
-    public Iterable<UserRecipe> deleteRecipe(@PathVariable("userRecipeId") @NonNull Integer userRecipeId, Authentication authentication) {
-
+    public String deleteRecipe(@PathVariable("id") String uderId, @PathVariable("userRecipeId") @NonNull Integer userRecipeId) {
+        System.out.println(("control"));
         userRecipeRepository.deleteById(userRecipeId);
-        String currentUsername = "Kat88"/*authentication.getName()*/;
         
-        return userRecipeRepository.findByUserId(currentUsername);
+        return "Recipe Deleted";
     }
 
     @PatchMapping("my-recipes/{userRecipeId}/edit-recipe")

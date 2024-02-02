@@ -39,7 +39,7 @@ public class UserRecipe {
     private String userId;
     
     @ElementCollection
-    @Size(min = 1, max = 10)
+    @Size(min = 0, max = 10)
     private List<String> ingredients;
     
 
