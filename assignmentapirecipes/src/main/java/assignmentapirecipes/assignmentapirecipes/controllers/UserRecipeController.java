@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,27 +32,28 @@ public class UserRecipeController {
     @GetMapping("/my-recipes")
     public Iterable<UserRecipe> findUserRecipes(@PathVariable("id") String userId) {
         
-        System.out.println("current user: " + userId);
-        
         return userRecipeRepository.findByUserId(userId);
     }
 
     @PostMapping("/my-recipes/add-recipe")
     public UserRecipe addRecipe(@RequestBody UserRecipe recipe) {
 
-        userRecipeRepository.save(recipe);
+        if (recipe != null) {
+            userRecipeRepository.save(recipe);
+        }
 
         return recipe;
     }
 
     @GetMapping("/my-recipes/{userRecipeId}")
     public Optional<UserRecipe> findRecipe(@PathVariable("userRecipeId") @NonNull Integer userRecipeId) {
+
         return userRecipeRepository.findById(userRecipeId);
     }
 
     @DeleteMapping("/my-recipes/{userRecipeId}/delete-recipe")
     public String deleteRecipe(@PathVariable("id") String uderId, @PathVariable("userRecipeId") @NonNull Integer userRecipeId) {
-        System.out.println(("control"));
+    
         userRecipeRepository.deleteById(userRecipeId);
         
         return "Recipe Deleted";
@@ -66,12 +66,9 @@ public class UserRecipeController {
         UserRecipe userRecipe = currentRecipe.get();
         userRecipe.setRecipeName(updatedRecipe.getRecipeName());
         userRecipe.setIngredients(updatedRecipe.getIngredients());
-        userRecipe.setRecipeImage(updatedRecipe.getRecipeImage());
         userRecipe.setRecipeMethod(updatedRecipe.getRecipeMethod());
         userRecipeRepository.save(userRecipe);
         
-
-        System.out.println("edit");
         return userRecipeRepository.findById(userRecipeId);
     }
 

@@ -11,9 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -24,10 +22,6 @@ public class UserRecipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userRecipeId;
     
-    @Lob
-    private byte[] recipeImage;
-    
-    @NotNull
     private String recipeMethod;
 
     private String recipeName;
@@ -42,16 +36,12 @@ public class UserRecipe {
     @Size(min = 0, max = 10)
     private List<String> ingredients;
     
-
-
-
     public UserRecipe() {}
     
     public UserRecipe(String username, String recipeName, List<String> ingredients, byte[] recipeImage, String recipeMethod) {
 
         this.recipeName = recipeName;
         this.ingredients = ingredients;
-        this.recipeImage = recipeImage;
         this.recipeMethod = recipeMethod;
     }
     
@@ -106,19 +96,4 @@ public class UserRecipe {
     public void removeIngredient(String ingredient) {
         this.ingredients.remove(ingredient);
     }
-
-    public byte[] getRecipeImage() {
-        return recipeImage;
-    }
-
-    public void setRecipeImage(byte[] recipeImage) {
-        this.recipeImage = recipeImage;
-    }
-
-    
-
-    
-
-
-
 }   

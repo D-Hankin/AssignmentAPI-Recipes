@@ -1,7 +1,5 @@
 package assignmentapirecipes.assignmentapirecipes.models;
 
-import java.util.UUID;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import jakarta.persistence.CascadeType;

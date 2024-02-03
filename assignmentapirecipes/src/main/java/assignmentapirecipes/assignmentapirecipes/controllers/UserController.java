@@ -1,6 +1,5 @@
 package assignmentapirecipes.assignmentapirecipes.controllers;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,19 +45,15 @@ public class UserController {
 
     @GetMapping
     public Iterable<User> findAll() {
-        System.out.println(userRepository.findAll());
         return userRepository.findAll();
     }
 
     @PostMapping("/add-user")
     public User addUser(@RequestBody User user) {
-
-        System.out.println("newUSer");
         
         String encryptedPassword = bcryptEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         userRepository.save(user);
-        System.out.println(user);
 
         return user;
     }
@@ -66,22 +61,19 @@ public class UserController {
     @GetMapping("/user/{id}")
     public Optional<User> findById(@PathVariable("id") @NonNull UUID id) {
         Optional<User> user = userRepository.findById(id);
+
         return user;
     }
 
     @PostMapping("/custom-login")
     public Optional<User> customLogIn(@RequestBody Map<String, String> loginRequest, HttpServletRequest request) {
-        System.out.println(loginRequest);
+    
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.get("username"), loginRequest.get("password"));
         Authentication auth3 = authenticationManager.authenticate(token);
 
         if (auth3.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(auth3);
             Authentication successfullAuthentication = SecurityContextHolder.getContext().getAuthentication();
-            System.out.println(successfullAuthentication.getPrincipal());
-            System.out.println("Session ID: " + request.getSession().getId());
-            System.out.println("User: " + successfullAuthentication.getName());
-
             Optional<User> user = userRepository.findByUsername(successfullAuthentication.getName());
 
             return user;
@@ -93,16 +85,10 @@ public class UserController {
     @PostMapping("/custom-logout")
     public ResponseEntity<String> customLogout(HttpServletRequest request, HttpServletResponse response) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Before logout: " + auth.getName());
-        System.out.println("Principal: " + auth.getPrincipal());
-        System.out.println("Session ID: " + request.getSession().getId()) ;
-        
-        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();      
         SecurityContextHolder.clearContext();
         request.getSession().invalidate();
         auth.setAuthenticated(false);
-
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
         logoutHandler.logout(request, response, auth);
         SecurityContextHolder.clearContext();

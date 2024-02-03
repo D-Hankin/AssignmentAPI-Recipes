@@ -1,10 +1,7 @@
 package assignmentapirecipes.assignmentapirecipes.controllers;
 
 import java.util.Map;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +30,7 @@ public class UserLikedRecipesController {
 
     @GetMapping("/liked-recipes")
     public Iterable<UserLikedRecipes> getLikedRecipes(@PathVariable("id") String userId) {
-            System.out.println("here: " + userId);
+            
             return userLikedRecipesRepository.findByUserId(userId);
         
     }
@@ -42,17 +39,19 @@ public class UserLikedRecipesController {
     public String likeARecipe(@RequestBody Map<String, String> incomingRecipe) {
 
         userLikedRecipes = new UserLikedRecipes(null, null);
-        System.out.println(incomingRecipe);
         userLikedRecipes.setRecipeNumber(incomingRecipe.get("recipeId"));
         userLikedRecipes.setUserId(incomingRecipe.get("userId"));
-        userLikedRecipesRepository.save(userLikedRecipes);
+
+        if (userLikedRecipes != null) {
+            userLikedRecipesRepository.save(userLikedRecipes);
+        }
 
         return "Recipe added to your list!";
     }
 
     @DeleteMapping("/remove-liked-recipe/{recipeId}")
     public String unliLikeARecipe(@PathVariable("id") String userId, @PathVariable String recipeId) {
-        System.out.println(userId + " " + recipeId);
+
         userLikedRecipesRepository.removeRecipe(userId, recipeId);
         return "Recipe removed from your list!";
     }
